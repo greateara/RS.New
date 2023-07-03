@@ -11,11 +11,16 @@ export default class AgamaStore {
 
     // pagination
     paginationSearch = '~'
-    paginationCount = 500  //Samakan dengan jumlah record dari API
-    paginationSkip = 0
-    paginationSelect = 1
-    paginationNumOfRows = 10
+    // paginationCount = 500  //Samakan dengan jumlah record dari API
+    // paginationSkip = 0
+    // paginationSelect = 1
+    // paginationNumOfRows = 10
 
+    pgNumOfColumn = 1
+    pgSelected = 0
+    pgCount = 0;
+    pgItemPerPage = 10;
+    pgSkip = 0
     //var yang akan inheren ...rows ...row ...pick
     //variabel lokal ... ...s
 
@@ -28,6 +33,22 @@ export default class AgamaStore {
         makeAutoObservable(this)
     }
 
+
+    setPgItemPerPage = (val: number) => {
+        this.pgItemPerPage = val;
+    }
+
+    setPgNumOfColumn = () => {
+        this.pgNumOfColumn = Math.ceil(this.pgCount / this.pgItemPerPage)
+    }
+
+    setPgSelected = (val: number) => {
+        this.pgSelected = val
+    }
+
+    setPgSkip = (val : number) => {
+        this.pgSkip = val
+    }
     // set setPaginationSearch(newValue: string) {
     //     this.paginationSearch = newValue;
     // }
@@ -89,12 +110,17 @@ export default class AgamaStore {
         try {
             const agamas = await agent.Agama.listFilter(this.paginationSearch)
             runInAction(() => {
+                this.agamaFilter.clear(); //mesti dihapus dulu sebelum di isi kembali
                 agamas.forEach(agama => {
                     // agama.timeStamp = agama.timeStamp.split('T')[0];
                     // this.agamaRows.push(agama)
                     this.agamaFilter.set(agama.id, agama)
                 })
+                this.pgCount = this.agamaFilter.size;
+                this.setPgNumOfColumn()
                 this.setLoadingInitial(false)
+                if (this.pgCount < (this.pgSelected * this.pgItemPerPage)) this.setPgSelected(0)
+                if (this.pgSkip > this.pgCount) this.setPgSkip(0)
                 console.log('aga', agamas)
             })
         } catch (error) {
@@ -111,9 +137,9 @@ export default class AgamaStore {
         console.log('after update src', this.paginationSearch)
 
     }
-    setPaginationCount = (val: number) => { this.paginationCount = val }
-    setPaginationSkip = (val: number) => { this.paginationSkip = val }
-    setPaginationNumOfRows = (val: number) => { this.paginationNumOfRows = val }
+    // setPaginationCount = (val: number) => { this.paginationCount = val }
+    // setPaginationSkip = (val: number) => { this.paginationSkip = val }
+    // setPaginationNumOfRows = (val: number) => { this.paginationNumOfRows = val }
 
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state

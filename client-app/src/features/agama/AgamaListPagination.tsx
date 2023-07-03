@@ -1,92 +1,89 @@
 import { observer } from "mobx-react-lite";
 import ReactPaginate from "react-paginate";
 import { useStore } from "../../app/stores/Store";
-import { Button, Dropdown, Grid, Input, Menu, Table } from "semantic-ui-react";
+import { Button, Dropdown, Grid, Header, Icon, Input, Label, Table } from "semantic-ui-react";
 import { useEffect, useRef, useState } from "react";
-
+import { AgamaAPI } from "../../app/models/AgamaAPI";
 
 export default observer(function AgamaListPagination() {
     const { agamaStore } = useStore()
-    const { setPaginationSearch, setPaginationCount, setPaginationSkip, setPaginationNumOfRows } = agamaStore
-    const { paginationSearch, paginationCount, paginationSkip, paginationNumOfRows } = agamaStore
+    const { setPaginationSearch,
+        pgCount, setPgItemPerPage, pgNumOfColumn, setPgNumOfColumn,
+        pgSelected, setPgSelected, pgSkip, setPgSkip
+    } = agamaStore
+    const { paginationSearch, agamaFilter,
+        pgItemPerPage
+    } = agamaStore
+
     const { agamaRowsSortKodePage } = agamaStore
-    // const [paginationSearch, setPaginationSearch] = useState('~')
-    // const [paginationSkip, setPaginationSkip] = useState(0)
-    // const [paginationCount, setPaginationCount] = useState(0)
-    // const [paginationSelect, setPaginationSelect] = useState(1)
-    // const [paginationNumOfRows, setPaginationNumOfRows] = useState(2)
-
-    // const { agamaStore } = useStore()
-    // const { agamaRowsSortKodePage, agamaRowsPage, agamaRows } = agamaStore
-    // // const { setPaginationSearch, setPaginationCount, setPaginationSelect, setPaginationSkip } = agamaStore
-    // const { paginationSearch, paginationCount, paginationSelect, paginationSkip } = agamaStore
-
-    const [pgNumOfRows, setPgNumOfRows] = useState(10)
+    const [currentItems, setCurrentItems] = useState<AgamaAPI[]>([])
+    const [ItemOffSet, setItemOffSet] = useState(0)
 
     const inputRef = useRef(null);
     const dropdownRef = useRef(null);
 
 
     const handlePageSelect = (data: any) => {
-        console.log('select')
-        // setPaginationSelect(data.selected + 1)
+        console.log('select', data)
+        setPgSelected(data.selected)
+        setPgSkip(data.selected * pgItemPerPage)
 
-        // console.log(data);
-        // // console.log(agamaRowsPage);
-        // // console.log(agamaRows.size);
-        // // console.log(agamaRowsPage.size)
-        // console.log('before', paginationCount, paginationSearch, paginationSelect, paginationSkip)
-        // setPaginationSelect(data.selected);
-        // //perhatikan nilai seleted dimulai dari nol
-        // console.log('after', paginationCount, paginationSearch, paginationSelect, paginationSkip)
     };
-
-    // const handleSearch = (data: any) => {
-    //     console.log(data);
-    //     setPaginationSearch(data.value)
-    // }
 
     const handleInputChange = (event: any) => {
         setPaginationSearch(event.target.value)
         agamaStore.loadAgamasFilter();
-
-        // const inputValue = event.target.value;
-        // console.log('Input Value:', event.target.value);
     };
 
     const handleDropdownChange = (event: any, data: any) => {
-        // const dropdownValue = event.target.value;
-        // console.log('Dropdown Value:', event);
-        // console.log(data.value)
-        // setPaginationNumOfRows(data.value)
-        setPgNumOfRows(data.value)
-        // console.log(pgNumOfRows)
+        // setPgNumOfRows(data.value)
+        setPgItemPerPage(data.value);
+        setPgNumOfColumn();
+
     };
 
     const options = [
-        { key: '~', text: '~', value: 0 },
+        // { key: '~', text: '~', value: 0 },
+        { key: '1', text: '1', value: 1 },
+        { key: '2', text: '2', value: 2 },
         { key: '10', text: '10', value: 10 },
         { key: '50', text: '50', value: 50 },
         { key: '100', text: '100', value: 100 },
+        { key: '500', text: '500', value: 500 },
     ]
 
     useEffect(() => {
-        console.log('num of rows', pgNumOfRows)
-        console.log('search', paginationSearch)
-        console.log('effect sr c s nr', paginationSearch, paginationCount, paginationSkip, paginationNumOfRows)
-        // agamaStore.loadAgamasPage('a', 3, 2)
-        // agamaStore.loadAgamasPage(paginationSearch, paginationNumOfRows, paginationSkip)
-        // setPaginationCount(agamaRowsPage.size)
-        // console.log('Select Count Skip', paginationSelect, paginationCount, paginationSkip)
-        // console.log('row', agamaRowsPage)
-        console.log(agamaRowsSortKodePage)
-    }, [pgNumOfRows, paginationSearch])
+        const agamaArray: AgamaAPI[] = Array.from(agamaFilter.values());
+        const slicedArray: AgamaAPI[] = agamaArray.slice(pgSkip, pgItemPerPage + pgSkip);
+        setCurrentItems(slicedArray)
 
-    // console.log(agamaRowsPage)
+        console.log('pgCount', pgCount)
+        console.log('pgSelect', pgSelected)
+        console.log(agamaFilter)
+    }, [agamaFilter, pgItemPerPage, pgSkip, pgCount, pgSelected])
+
 
     return (
         <>
+            
+            <label>
+                Count {pgCount}, 
+                Search {paginationSearch}
+                ItemPerPage {pgItemPerPage} //
+                NumOfColumn {pgNumOfColumn} //
+                Selected {pgSelected}  //
+                Skip {pgSkip}
+            </label>
+            
 
+            <Header className="ui center aligned header black" as='h1'>
+                ==|  LIST  Uji Coba |==
+                <Label as='a' color="red" corner onClick={() => agamaStore.openForm()}>
+                    <Icon name='add' />
+                </Label>
+
+            </Header>
+            <hr color="red"></hr>
             <Table className="ui compact table striped">
                 <Table.Header>
                     <Table.Row>
@@ -100,11 +97,13 @@ export default observer(function AgamaListPagination() {
                 </Table.Header >
 
                 <Table.Body>
-                    {agamaRowsSortKodePage.map((agama: any) => (
+                    {currentItems.map((agama: any) => (
+                        // {agamaRowsSortKodePage.map((agama: any) => (
 
                         <Table.Row key={agama.id}>
                             <Table.Cell>
                                 {/* <Button > */}
+                                {/* {agama.id.substring(0, 7).toUpperCase()} */}
                                 {agama.id.substring(0, 7).toUpperCase()}
                                 {/* </Button> */}
                             </Table.Cell>
@@ -135,7 +134,7 @@ export default observer(function AgamaListPagination() {
                     <Input
                         ref={inputRef}
                         onChange={handleInputChange}
-                        label={<Dropdown defaultValue='All' options={options}
+                        label={<Dropdown defaultValue={10} options={options}
                             ref={dropdownRef} onChange={handleDropdownChange}
                         />}
                         labelPosition='right'
@@ -147,8 +146,8 @@ export default observer(function AgamaListPagination() {
                         breakLabel="..."
                         nextLabel=">>"
                         onPageChange={handlePageSelect}
-                        pageRangeDisplayed={10}
-                        pageCount={10}
+                        pageRangeDisplayed={2}
+                        pageCount={pgNumOfColumn}
                         previousLabel="<<"
                         renderOnZeroPageCount={null}
 

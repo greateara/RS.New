@@ -1,5 +1,5 @@
 // import react from 'react';
-import { Button, Container, Dropdown, DropdownItem, Image, Menu } from 'semantic-ui-react';
+import { Button, Container, Divider, Dropdown, DropdownItem, Grid, Image, ImageGroup, Menu } from 'semantic-ui-react';
 // import { useStore } from '../stores/Store';
 import { Link, NavLink } from 'react-router-dom';
 import { useStore } from '../stores/Store';
@@ -12,51 +12,79 @@ import { observer } from 'mobx-react-lite';
 export default observer(function NavBar() {
     const { userStore: { user, logout } } = useStore();
     return (
-        <Menu inverted fixed='top'>
-            <Container>
+        <>
+            <Menu inverted fixed='top'>
+                <Container>
 
-                <Menu.Item as={NavLink} to='/' header>
-                    <img src="/assets/sibolgalogo.png" alt="logo" style={{ marginRight: '10px' }} />
-                    RS.NetReact App
-                </Menu.Item>
-                <Menu.Item >Master
-                    <Dropdown>
-                        <Dropdown.Menu>
-                            <Dropdown.Header>Data Referensi</Dropdown.Header>
-                            <Dropdown.Item>
-                                <Dropdown text='Data Induk'>
-                                    <Dropdown.Menu>
+                    <Menu.Item as={NavLink} to='/' header>
+                        <img src="/assets/sibolgalogo.png" alt="logo" style={{ marginRight: '10px' }} />
+                        RS.NetReact App
+                    </Menu.Item>
+                    <Menu.Item>Master
+                        <Dropdown>
+                            <Dropdown.Menu>
+                                <Dropdown.Header>Data Referensi</Dropdown.Header>
+                                <Dropdown.Item>
+                                    <Dropdown text='Data Induk'>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item as={NavLink} to='/Agama' name='Agama'>Agama</Dropdown.Item>
+                                            <Dropdown.Item>Bahasa</Dropdown.Item>
+                                            <Dropdown.Item>Organisasi</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Dropdown.Item>
+                                <Dropdown.Item>Home Goods</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Header>Data Pendukung</Dropdown.Header>
+                                <Dropdown.Item>Cancellations</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Menu.Item>
+                    <Menu.Item as={NavLink} to='/OrgType' name='OrgType' />
+                    <Menu.Item as={NavLink} to='/errors' name='Errors' />
+                    <Menu.Item> Pilih
+                        <Dropdown>
+                            <Dropdown.Menu>
+                                <Grid columns={2} relaxed='very'>
+                                    <Grid.Column>
+                                        satu
                                         <Dropdown.Item as={NavLink} to='/Agama' name='Agama'>Agama</Dropdown.Item>
                                         <Dropdown.Item>Bahasa</Dropdown.Item>
                                         <Dropdown.Item>Organisasi</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Dropdown.Item>
-                            <Dropdown.Item>Home Goods</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Header>Data Pendukung</Dropdown.Header>
-                            <Dropdown.Item>Cancellations</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Menu.Item>
-                <Menu.Item as={NavLink} to='/OrgType' name='OrgType' />
-                <Menu.Item as={NavLink} to='/errors' name='Errors' />
-                {/* 
-                <Menu.Item>
-                    <Button as={NavLink} to='/createOrgType' positive content='Create OrgType' />
-                </Menu.Item> 
-                */}
-                <Menu.Item position='right'>
-                    <Image src={user?.image || '/assets/user.png'} avatar spaced='right' />
-                    <Dropdown pointing='top left' text={user?.displayName}>
-                        <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to={`/profile/${user?.userName}`} text='My Profile' icon='user' />
-                            <Dropdown.Item onClick={logout} text='Log-Out' icon='power' />
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Menu.Item>
 
-            </Container>
-        </Menu >
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        dua
+                                        <Dropdown.Item as={NavLink} to='/Agama' name='Agama'>Agama</Dropdown.Item>
+                                        <Dropdown.Item>Bahssasa</Dropdown.Item>
+                                        <Dropdown.Item>Organssisasi</Dropdown.Item>
+                                    </Grid.Column>
+                                </Grid>
+
+                                <Divider vertical>And</Divider>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Menu.Item>
+
+
+                    {/*
+    <Menu.Item>
+        <Button as={NavLink} to='/createOrgType' positive content='Create OrgType' />
+    </Menu.Item>
+    */}
+                    <Menu.Item position='right'>
+                        <Image src={user?.image || '/assets/user.png'} avatar spaced='right' />
+                        <Dropdown pointing='top left' text={user?.displayName}>
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={Link} to={`/profile/${user?.userName}`} text='My Profile' icon='user' />
+                                <Dropdown.Item onClick={logout} text='Log-Out' icon='power' />
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Menu.Item>
+
+                </Container>
+            </Menu>
+
+        </>
     )
 })
