@@ -6,6 +6,7 @@ import { Router } from '../router/Routes';
 import { Store } from '../stores/Store';
 import { User, UserFormValues } from '../models/User';
 import { AgamaAPI } from '../models/AgamaAPI';
+import { ProvinsiAPI } from '../models/ProvinsiAPI';
 // import { timeStamp } from 'console';
 // import { error } from 'console';
 
@@ -90,7 +91,18 @@ const Agama = {
     create: (agama: AgamaAPI) => request.post<void>('/agama', agama),
     update: (agama: AgamaAPI) => request.put<void>(`/agama/${agama.id}`, agama),
     delete: (id: string, timeStamp: string) => request.delete<void>(`/agama/${id}/${timeStamp}`)
+}
 
+const Provinsi = {
+    list: () => request.get<ProvinsiAPI[]>('/provinsi'),
+    listPage: (searchText: string, count: number, skip: number) => request.get<ProvinsiAPI[]>
+        (`/provinsi/${searchText}/${count}/${skip}`),
+    listFilter: (searchText: string) => request.get<ProvinsiAPI[]>
+        (`/provinsi/filter/${searchText}`),
+    details: (id: string) => request.get<ProvinsiAPI>(`/provinsi/${id}`),
+    create: (provinsi: ProvinsiAPI) => request.post<void>('/provinsi', provinsi),
+    update: (provinsi: ProvinsiAPI) => request.put<void>(`/provinsi/${provinsi.id}`, provinsi),
+    delete: (id: string, timeStamp: string) => request.delete<void>(`/provinsi/${id}/${timeStamp}`)
 }
 
 const OrgTypes = {
@@ -108,6 +120,7 @@ const Account = {
 }
 const agent = {
     Agama,
+    Provinsi,
     OrgTypes,
     Account
 }

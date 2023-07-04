@@ -11,6 +11,7 @@ import LoginForm from "../../features/users/LoginForm";
 import Stay from "../../features/home/Stay";
 import Agama from "../../features/agama/Agama";
 import AgamaEntry from "../../features/agama/AgamaEntry";
+import Provinsi from "../../features/provinsi/Provinsi";
 
 export const Routes: RouteObject[] = [
     {
@@ -20,6 +21,7 @@ export const Routes: RouteObject[] = [
             { path: 'stay', element: <Stay /> },
             { path: '', element: <HomePage /> },
             { path: 'agama', element: <Agama /> },
+            { path: 'provinsi', element: <Provinsi /> },
             { path: 'agamacreate', element: <AgamaEntry /> },
             { path: 'orgType', element: <OrgTypeDashboard /> },
             { path: 'orgType/:id', element: <OrgTypeDetails /> },
