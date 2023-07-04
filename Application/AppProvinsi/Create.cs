@@ -14,6 +14,7 @@ namespace Application.AppProvinsi
         public class Command : IRequest<Result<Unit>>
         {
             public Agama Agama { get; set; }
+            
         }
         public class CommandValidator : AbstractValidator<Command>
         {
