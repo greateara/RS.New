@@ -10,11 +10,11 @@ namespace Application.AppProvinsi
 {
     public class Details
     {
-        public class Query : IRequest<Result<AgamaDto>>
+        public class Query : IRequest<Result<ProvinsiDto>>
         {
             public Guid Id { get; set; }
         }
-        public class Handler : IRequestHandler<Query, Result<AgamaDto>>
+        public class Handler : IRequestHandler<Query, Result<ProvinsiDto>>
         {
             private readonly AppDbContext _context;
             private readonly IMapper _mapper;
@@ -24,11 +24,11 @@ namespace Application.AppProvinsi
                 _context = context;
             }
 
-            public async Task<Result<AgamaDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<ProvinsiDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var ret = await _context.Agama
+                var ret = await _context.Provinsi
                     // .Include(a => a.OrgType)
-                    .ProjectTo<AgamaDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<ProvinsiDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync( a => a.Id == request.Id) ;
 
                 // var r = await _context.Org
@@ -36,7 +36,7 @@ namespace Application.AppProvinsi
                 //     .ProjectTo<OrgDto>(_mapper.ConfigurationProvider)
                 //     .ToListAsync(cancellationToken);
 
-                return Result<AgamaDto>.Success(ret);
+                return Result<ProvinsiDto>.Success(ret);
                 // if (ret == null) return NotFound(); 
                 // return ret;
 

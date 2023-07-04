@@ -10,6 +10,7 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Agama, AgamaDto>();
+            CreateMap<Provinsi, ProvinsiDto>();
             CreateMap<Bahasa, BahasaDto>();
             CreateMap<Gender, GenderDto>();
             CreateMap<Golongan, GolonganDto>();

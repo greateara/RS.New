@@ -13,13 +13,13 @@ namespace Application.AppProvinsi
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Agama Agama { get; set; }
+            public Provinsi Provinsi { get; set; }
         }
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(a => a.Agama).SetValidator(new AgamaValidator());
+                RuleFor(a => a.Provinsi).SetValidator(new ProvinsiValidator());
             }
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -34,19 +34,19 @@ namespace Application.AppProvinsi
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var r = await _context.Agama.FindAsync(request.Agama.Id);
+                var r = await _context.Provinsi.FindAsync(request.Provinsi.Id);
                 if (r == null) return null;
-                if (r.TimeStamp != request.Agama.TimeStamp) return null;
-                request.Agama.TimeStamp = DateTime.UtcNow;
+                if (r.TimeStamp != request.Provinsi.TimeStamp) return null;
+                request.Provinsi.TimeStamp = DateTime.UtcNow;
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<Agama, Agama>();
+                    cfg.CreateMap<Provinsi, Provinsi>();
                 });
                 var mapper = new Mapper(config);
 
                 // // Melakukan pemetaan nilai properti
-                mapper.Map(request.Agama, r);
-                _context.Agama.Update(r);
+                mapper.Map(request.Provinsi, r);
+                _context.Provinsi.Update(r);
 
                 var ret = await _context.SaveChangesAsync() > 0;
                 if (!ret) return Result<Unit>.Failure("Fail to update organization");

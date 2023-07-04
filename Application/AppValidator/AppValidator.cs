@@ -64,4 +64,18 @@ namespace Application.AppValidator
             RuleFor(a => a.Deleted).NotEmpty();
         }
     }
+
+    public class ProvinsiValidator : AbstractValidator<Provinsi>
+    {
+        public ProvinsiValidator()
+        {
+            RuleFor(a => a.Uraian).NotEmpty().MinimumLength(1);
+            RuleFor(a => a.TimeStamp).GreaterThan(DateTime.MinValue);
+            RuleFor(a => a.Deleted).GreaterThanOrEqualTo(0);
+            RuleFor(a => a.Kode).GreaterThanOrEqualTo(0);
+
+            // RuleFor(a => a.Kode).NotEmpty();
+            // RuleFor(a => a.Deleted).NotEmpty();
+        }
+    }
 }

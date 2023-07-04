@@ -14,9 +14,9 @@ namespace Application.AppProvinsi
 {
     public class List
     {
-        public class Query : IRequest<Result<List<AgamaDto>>> { }
+        public class Query : IRequest<Result<List<ProvinsiDto>>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<AgamaDto>>>
+        public class Handler : IRequestHandler<Query, Result<List<ProvinsiDto>>>
         {
             private readonly AppDbContext _context;
             private readonly IMapper _mapper;
@@ -26,16 +26,16 @@ namespace Application.AppProvinsi
                 _context = context;
             }
 
-            public async Task<Result<List<AgamaDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ProvinsiDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var r = await _context.Agama
+                var r = await _context.Provinsi
                     .Where( c => c.Deleted ==0)
                     // .Include(a => a.OrgType)
-                    .ProjectTo<AgamaDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<ProvinsiDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
                 // var result = _mapper.Map<List<Agama>, List<AgamaDto>>(r);
-                return Result<List<AgamaDto>>.Success(r);
+                return Result<List<ProvinsiDto>>.Success(r);
 
             }
         }

@@ -13,14 +13,14 @@ namespace Application.AppProvinsi
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Agama Agama { get; set; }
+            public Provinsi Provinsi { get; set; }
             
         }
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(a => a.Agama).SetValidator(new AgamaValidator());
+                RuleFor(a => a.Provinsi).SetValidator(new ProvinsiValidator());
             }
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -38,7 +38,7 @@ namespace Application.AppProvinsi
                 // Pengujian untuk mendapatkan nama user yang mengakses
                 var user = await _context.Users.FirstOrDefaultAsync
                     (a => a.UserName == _userAccessor.GetUsername());
-                _context.Agama.Add(request.Agama);
+                _context.Provinsi.Add(request.Provinsi);
                 var ret = await _context.SaveChangesAsync() > 0;
                 if (!ret) return Result<Unit>.Failure("Fail to create Organization Type");
                 return Result<Unit>.Success(Unit.Value);
