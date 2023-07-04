@@ -40,7 +40,7 @@ namespace Application.AppProvinsi
                     (a => a.UserName == _userAccessor.GetUsername());
                 _context.Provinsi.Add(request.Provinsi);
                 var ret = await _context.SaveChangesAsync() > 0;
-                if (!ret) return Result<Unit>.Failure("Fail to create Organization Type");
+                if (!ret) return Result<Unit>.Failure("Fail to create Provinsi");
                 return Result<Unit>.Success(Unit.Value);
             }
         }

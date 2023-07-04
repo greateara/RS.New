@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 /obj
+.debug
+.db
+.db-shm
+.db-wal
+
 
 # testing
 /coverage

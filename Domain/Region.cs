@@ -7,7 +7,7 @@ namespace Domain
 {
     public class Provinsi
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
         public int Kode { get; set; } = 0;
         public int Deleted { get; set; } = 0;
         public string Uraian { get; set; } = "";
