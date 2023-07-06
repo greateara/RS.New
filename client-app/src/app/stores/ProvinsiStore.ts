@@ -2,11 +2,13 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { ProvinsiAPI } from "../models/ProvinsiAPI";
 import agent from "../api/Agent";
 import { v4 as uuid } from 'uuid'
+import { array } from "yup";
 
 
 export default class ProvinsiStore {
     items = new Map<string, ProvinsiAPI>()
     item: ProvinsiAPI | undefined = undefined
+    itemRows :  ProvinsiAPI[] = []
 
     pgSearch = '~'
 
@@ -20,7 +22,8 @@ export default class ProvinsiStore {
 
     loadItems = async (
     ) => {
-        console.log('call api')
+        // this.setLoadingInitial(true)
+        console.log('provinsiStore - loadItems()')
         if (this.pgSearch == "") this.pgSearch = "~"
         try {
             const provinsis = await agent.Provinsi.listFilter(this.pgSearch)
@@ -30,18 +33,19 @@ export default class ProvinsiStore {
                     this.items.set(provinsi.id, provinsi)
                 })
                 this.setLoadingInitial(false)
-                console.log('rowsFilter', provinsis)
+                this.itemRows = provinsis
+                console.log('provinsiStore-provinsis', provinsis)
             })
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             this.setLoadingInitial(false)
         }
     }
 
     setPgSearch = (search: string) => {
-        console.log('before update src', this.pgSearch)
+        // console.log('before update src', this.pgSearch)
         this.pgSearch = search
-        console.log('after update src', this.pgSearch)
+        // console.log('after update src', this.pgSearch)
     }
 
     setLoadingInitial = (state: boolean) => {

@@ -4,7 +4,7 @@ import CommonStore from './CommonStore';
 import UserStore from './UserStore';
 import ModalStore from './ModalStore';
 import AgamaStore from './AgamaStore';
-import ProvinsiStore from './Provinsi';
+import ProvinsiStore from './ProvinsiStore';
     
 
 interface Store {

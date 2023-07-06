@@ -59,7 +59,8 @@ export default observer(function AgamaListPagination() {
 
         console.log('pgCount', pgCount)
         console.log('pgSelect', pgSelected)
-        console.log(agamaFilter)
+        console.log('agama-filter',agamaFilter)
+        console.log('agama-array',agamaArray)
     }, [agamaFilter, pgItemPerPage, pgSkip, pgCount, pgSelected])
 
 
