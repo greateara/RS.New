@@ -3,81 +3,70 @@ import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/Store';
 import { ProvinsiAPI } from '../../app/models/ProvinsiAPI';
-import { Button } from 'semantic-ui-react';
-
+import { Button, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import ButtonGroup from 'semantic-ui-react/dist/commonjs/elements/Button/ButtonGroup';
 
 export default observer(function ProvinsiList() {
 
   const { provinsiStore } = useStore()
-  // const { items } = provinsiStore
-  const { setPgSearch, itemRows, loadingInitial } = provinsiStore
+  const { setPgSearch, itemRows } = provinsiStore
   const [globalFilter, setGlobalFilter] = useState('~');
-  // const [isRefetching, setIsRefetching] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // console.log('items', provinsiStore.items)
-  // console.log('item', provinsiStore.item)
 
-  const handlePilih = () => {
-    console.log('Pilih Click')
+  const handleSend = () => {
+    console.log('ini dari send')
   }
+
+  const buttons = [
+    <Button key="one" color="warning" startIcon={<DeleteIcon />} onChange={handleSend}>Del</Button>,
+    <Button key="two" color="info" endIcon={<SendIcon />}>Send</Button>,
+  ];
 
   const columns = useMemo<MRT_ColumnDef<ProvinsiAPI>[]>(
     () => [
       {
-        // accessorkey: "id",
         accessorFn: (row) => row.id.toUpperCase().substring(0, 8),
         header: 'Id',
-        size: 1,
+        size: 100,
       },
       {
         accessorKey: 'kode',
         header: 'Kode',
-        size: 5,
+        size: 100,
       },
-      // {
-      //   accessorKey: 'deleted', //normal accessorKey
-      //   header: 'Deleted',
-      //   size: 5,
-      // },
       {
         accessorKey: 'uraian',
         header: 'Uraian',
-        size: 300,
+        size: 700,
       },
       {
-        accessorFn: () => <Button onClick={handlePilih}>test</Button>,
+        accessorFn: () =>
+          <>
+            <ButtonGroup size="small" aria-label="small button group"              >
+              {buttons}
+            </ButtonGroup>
+          </>,
         header: 'Action',
-        size: 50,
+        size: 5,
       },
     ],
     [],
   );
 
-
-
   useEffect(() => {
-    // if (!loadingInitial) {
-      // setIsRefetching(true)
-      // setIsLoading(true)
-    // };
     setPgSearch(globalFilter)
-    // setIsRefetching(false)
-    // setIsLoading(false)
   }, [globalFilter])
-
-  // if (provinsiStore.loadingInitial) return <LoadingComponent content=" ... Loading" />
 
   return (
     <>
       <MaterialReactTable
+        initialState={{ density: 'compact', }}
         columns={columns}
         data={itemRows}
         manualFiltering
         onGlobalFilterChange={setGlobalFilter}
         state={{
-          // globalFilter,
-          // showProgressBars: isRefetching,
-          // isLoading,
         }}
       />
     </>

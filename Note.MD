@@ -32,7 +32,14 @@ npm config set legacy-peer-deps false  // true
 https://mui.com/material-ui/react-table/
 
 
+//Akhirnya ini yang digunakan
 //Material-React-Table 
 https://www.material-react-table.com/docs/examples/basic
 https://www.material-react-table.com/docs/guides/global-filtering#manual-server-side-global-filtering
 https://www.material-react-table.dev/?path=/story/features-search-examples--custom-global-filter-fn
+
+//Material UI 
+https://mui.com/material-ui/react-skeleton/
+
+//Formik
+https://www.youtube.com/watch?v=MV9NC3FoCmM

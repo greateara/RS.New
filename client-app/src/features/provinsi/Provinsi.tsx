@@ -6,6 +6,7 @@ import { useStore } from "../../app/stores/Store";
 // import AgamaListPagination from "./ProvinsiList";
 // import ProvinsiList from "./ProvinsiListMT";
 import ProvinsiList from "./ProvinsiList";
+import ProvinsiDetail from "./ProvinsiDetail";
 
 export default observer(function Provinsi() {
     const { provinsiStore } = useStore()
@@ -25,6 +26,7 @@ export default observer(function Provinsi() {
                     {/* {provinsiStore.editMode && <AgamaEntry />} */}
                 </Grid.Column>
                 <Grid.Column width={16}>
+                    <ProvinsiDetail />
                     {/* {provinsiStore.item && !provinsiStore.editMode && <AgamaDetail />} */}
                 </Grid.Column>
                 <Grid.Column width={16}>
